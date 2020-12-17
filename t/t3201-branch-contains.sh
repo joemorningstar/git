@@ -13,6 +13,7 @@ test_expect_success setup '
 	git add file &&
 	test_tick &&
 	git commit -m initial &&
+	git branch -M main &&
 	git branch side &&
 
 	echo 1 >file &&

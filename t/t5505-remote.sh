@@ -10,7 +10,7 @@ export GIT_TEST_DEFAULT_INITIAL_BRANCH_NAME
 setup_repository () {
 	mkdir "$1" && (
 	cd "$1" &&
-	git init &&
+	git init -b main &&
 	>file &&
 	git add file &&
 	test_tick &&
@@ -397,7 +397,7 @@ test_expect_success 'add --mirror && prune' '
 
 test_expect_success 'add --mirror=fetch' '
 	mkdir mirror-fetch &&
-	git init mirror-fetch/parent &&
+	git init -b main mirror-fetch/parent &&
 	(
 		cd mirror-fetch/parent &&
 		test_commit one
@@ -468,7 +468,7 @@ test_expect_success 'fetch mirror respects specific branches' '
 test_expect_success 'add --mirror=push' '
 	mkdir mirror-push &&
 	git init --bare mirror-push/public &&
-	git init mirror-push/private &&
+	git init -b main mirror-push/private &&
 	(
 		cd mirror-push/private &&
 		test_commit one &&
@@ -926,7 +926,7 @@ test_expect_success 'migrate a remote from named file in $GIT_DIR/branches' '
 	(
 		cd six &&
 		git remote rm origin &&
-		echo "$origin_url" >.git/branches/origin &&
+		echo "$origin_url#main" >.git/branches/origin &&
 		git remote rename origin origin &&
 		test_path_is_missing .git/branches/origin &&
 		test "$(git config remote.origin.url)" = "$origin_url" &&

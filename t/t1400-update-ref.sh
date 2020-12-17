@@ -30,10 +30,11 @@ create_test_commits ()
 }
 
 test_expect_success setup '
+	git checkout --orphan main &&
 	create_test_commits "" &&
 	mkdir $bare &&
 	cd $bare &&
-	git init --bare &&
+	git init --bare -b main &&
 	create_test_commits "bare" &&
 	cd -
 '

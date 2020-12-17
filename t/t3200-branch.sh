@@ -15,6 +15,7 @@ test_expect_success 'prepare a trivial repository' '
 	echo Hello >A &&
 	git update-index --add A &&
 	git commit -m "Initial commit." &&
+	git branch -M main &&
 	echo World >>A &&
 	git update-index --add A &&
 	git commit -m "Second commit." &&
@@ -30,7 +31,7 @@ test_expect_success 'branch -h in broken repository' '
 	mkdir broken &&
 	(
 		cd broken &&
-		git init &&
+		git init -b main &&
 		>.git/refs/heads/main &&
 		test_expect_code 129 git branch -h >usage 2>&1
 	) &&
@@ -181,7 +182,7 @@ test_expect_success 'git branch -M baz bam should add entries to .git/logs/HEAD'
 '
 
 test_expect_success 'git branch -M should leave orphaned HEAD alone' '
-	git init orphan &&
+	git init -b main orphan &&
 	(
 		cd orphan &&
 		test_commit initial &&
@@ -292,7 +293,7 @@ test_expect_success 'deleting checked-out branch from repo that is a submodule' 
 test_expect_success 'bare main worktree has HEAD at branch deleted by secondary worktree' '
 	test_when_finished "rm -rf nonbare base secondary" &&
 
-	git init nonbare &&
+	git init -b main nonbare &&
 	test_commit -C nonbare x &&
 	git clone --bare nonbare bare &&
 	git -C bare worktree add --detach ../secondary main &&
@@ -1327,17 +1328,17 @@ test_expect_success '--list during rebase from detached HEAD' '
 
 test_expect_success 'tracking with unexpected .fetch refspec' '
 	rm -rf a b c d &&
-	git init a &&
+	git init -b main a &&
 	(
 		cd a &&
 		test_commit a
 	) &&
-	git init b &&
+	git init -b main b &&
 	(
 		cd b &&
 		test_commit b
 	) &&
-	git init c &&
+	git init -b main c &&
 	(
 		cd c &&
 		test_commit c &&
@@ -1345,7 +1346,7 @@ test_expect_success 'tracking with unexpected .fetch refspec' '
 		git remote add b ../b &&
 		git fetch --all
 	) &&
-	git init d &&
+	git init -b main d &&
 	(
 		cd d &&
 		git remote add c ../c &&
@@ -1361,7 +1362,7 @@ test_expect_success 'tracking with unexpected .fetch refspec' '
 '
 
 test_expect_success 'configured committerdate sort' '
-	git init sort &&
+	git init -b main sort &&
 	(
 		cd sort &&
 		git config branch.sort committerdate &&

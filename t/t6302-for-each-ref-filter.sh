@@ -10,6 +10,7 @@ export GIT_TEST_DEFAULT_INITIAL_BRANCH_NAME
 
 test_expect_success 'setup some history and refs' '
 	test_commit one &&
+	git branch -M main &&
 	test_commit two &&
 	test_commit three &&
 	git checkout -b side &&

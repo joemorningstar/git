@@ -28,7 +28,9 @@ convert_bundle_to_pack () {
 test_expect_success setup '
 	echo >file original &&
 	git add file &&
-	git commit -a -m original'
+	git commit -a -m original &&
+	git branch -M main
+'
 
 test_expect_success "clone and setup child repos" '
 	git clone . one &&
@@ -1004,7 +1006,7 @@ setup_negotiation_tip () {
 	USE_PROTOCOL_V2="$3"
 
 	rm -rf "$SERVER" client trace &&
-	git init "$SERVER" &&
+	git init -b main "$SERVER" &&
 	test_commit -C "$SERVER" alpha_1 &&
 	test_commit -C "$SERVER" alpha_2 &&
 	git -C "$SERVER" checkout --orphan beta &&

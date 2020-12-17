@@ -47,6 +47,7 @@ write_command () {
 #               a
 test_expect_success 'setup repository' '
 	test_commit a &&
+	git branch -M main &&
 	git checkout -b o/foo &&
 	test_commit b &&
 	test_commit c &&
@@ -199,7 +200,7 @@ LOCAL_PRISTINE="$(pwd)/local_pristine"
 #		a(main)
 test_expect_success 'setup repos for fetching with ref-in-want tests' '
 	(
-		git init "$REPO" &&
+		git init -b main "$REPO" &&
 		cd "$REPO" &&
 		test_commit a &&
 
@@ -304,7 +305,7 @@ LOCAL_PRISTINE="$(pwd)/local_pristine"
 
 test_expect_success 'setup repos for change-while-negotiating test' '
 	(
-		git init "$REPO" &&
+		git init -b main "$REPO" &&
 		cd "$REPO" &&
 		>.git/git-daemon-export-ok &&
 		test_commit m1 &&

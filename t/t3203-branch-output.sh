@@ -11,6 +11,7 @@ test_expect_success 'make commits' '
 	echo content >file &&
 	git add file &&
 	git commit -m one &&
+	git branch -M main &&
 	echo content >>file &&
 	git commit -a -m two
 '
@@ -254,7 +255,7 @@ test_expect_success 'local-branch symrefs shortened properly' '
 
 test_expect_success 'sort branches, ignore case' '
 	(
-		git init sort-icase &&
+		git init -b main sort-icase &&
 		cd sort-icase &&
 		test_commit initial &&
 		git branch branch-one &&
